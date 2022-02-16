@@ -1,10 +1,9 @@
 package springboottest.service;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
+import springboottest.entity.ItemRepository;
 import springboottest.entity.Item;
 
 // not working
@@ -14,19 +13,15 @@ import springboottest.entity.Item;
 @Service
 public class DBInit implements CommandLineRunner
 {
+    @Autowired
+    ItemRepository repo;
+
     @Override
     public void run(String[] args)
     {
         // output works
         System.out.println("CommandLineRunner run() executing...");
-        
-        Configuration configuration = new Configuration().configure();
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        Item item1 = new Item("itemName");
-        session.beginTransaction();
-        session.save(item1);
-        session.getTransaction().commit();
+        repo.save(new Item("ItemName"));
     }
 }
 
